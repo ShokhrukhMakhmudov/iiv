@@ -1,0 +1,43 @@
+/* components/Modal.module.css */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #eee;
+  padding: 20px;
+  border-radius: 8px;
+
+  position: relative;
+  z-index: 1001;
+}
+
+.closeButton {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding-bottom: 2px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.closeButton:hover {
+  background-color: rgba(201, 201, 201, 0.834);
+  border-radius: 50%;
+}
+.modalContent {
+  padding-top: 20px;
+}
