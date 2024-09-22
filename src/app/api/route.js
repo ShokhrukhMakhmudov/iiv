@@ -1,9 +1,9 @@
-import clientPromise from "../../lib/mongodb";
+import connectMongoDb from "../../../lib/mongodb";
 
 export default async function handler(req, res) {
   try {
     // Подключаемся к MongoDB
-    const client = await clientPromise;
+    const client = await connectMongoDb;
     const db = client.db("cluster0"); // Укажите название вашей базы данных
 
     // Пример выборки данных из коллекции
