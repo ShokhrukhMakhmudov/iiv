@@ -24,7 +24,7 @@ const BackgroundVideo = () => {
       <video
         id="video"
         ref={videoRef}
-        className="absolute top-0 left-0 h-full w-full object-cover blur-[5px]"
+        className="absolute top-0 left-0 h-full w-full object-cover blur-[3px]"
         autoPlay
         muted
         onTimeUpdate={handleVideoEnd}>
@@ -53,7 +53,7 @@ const BackgroundVideo = () => {
 
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-0" />
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <Auth />
+        <Auth closeModal={closeModal} />
       </Modal>
     </div>
   );

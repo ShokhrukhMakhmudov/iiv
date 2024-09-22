@@ -1,15 +1,33 @@
 "use client";
-import { useRef } from "react";
+import { useContext, useRef, useState } from "react";
+import findGraduate from "../../actions/findGraduate";
+import { Context } from "../../context/context";
+import { useRouter } from "next/navigation";
 
-export default function Auth() {
+export default function Auth({ closeModal }) {
+  const { setData } = useContext(Context);
+  const [error, setError] = useState("");
+  const router = useRouter();
   const passport = useRef(null);
   const jshir = useRef(null);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({
       passport: passport.current.value,
       jshir: jshir.current.value,
     });
+    const graduate = await findGraduate(
+      passport.current.value,
+      jshir.current.value
+    );
+    if (graduate) {
+      setData(JSON.parse(graduate));
+      closeModal();
+
+      router.push("#graduate");
+    } else {
+      setError("Ma'lumot topilmadi!");
+    }
   };
   return (
     <section className="">
@@ -28,7 +46,7 @@ export default function Auth() {
             <label htmlFor="passport">Pasport seriyasi va raqami</label>
             <input
               ref={passport}
-              className="border px-3 py-2 rounded-xl text-xl mb-5 outline-[#c1c1c1]"
+              className="border px-3 py-2 rounded-xl text-xl mb-5 bg-white text-black outline-[#c1c1c1]"
               type="text"
               placeholder="AA 1234567"
               id="passport"
@@ -41,7 +59,7 @@ export default function Auth() {
             <label htmlFor="jshir">JSHIR</label>
             <input
               ref={jshir}
-              className="border px-3 py-2 rounded-xl text-xl outline-[#c1c1c1]"
+              className="border px-3 py-2 rounded-xl text-xl bg-white text-black outline-[#c1c1c1]"
               type="text"
               placeholder="14 ta raqam"
               id="jshir"
@@ -52,9 +70,10 @@ export default function Auth() {
               pattern="[0-9]{14}"
               title="JSHIR 14 raqam bo'lishi kerak"
             />
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <button
               type="submit"
-              className="inline-block mt-5 border py-2 px-4 rounded-xl text-xl bg-white hover:bg-[#ffffff8a] active:opacity-50">
+              className="inline-block mt-5 border py-2 px-4 rounded-xl text-xl bg-white text-black hover:bg-[#ffffff8a] active:opacity-50">
               Sertifikat olish
             </button>
           </form>

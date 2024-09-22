@@ -19,5 +19,42 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      "dark",
+      // {
+      //   light: {
+      //     primary: "#4f46e5", // Цвета для light темы
+      //     secondary: "#0d9488",
+      //     accent: "#f59e0b",
+      //     neutral: "#111827",
+      //     "base-100": "#ffffff", // Базовый цвет фона
+      //     info: "#3b82f6",
+      //     success: "#10b981",
+      //     warning: "#f59e0b",
+      //     error: "#ef4444",
+      //     // Добавляем черный цвет текста для светлой темы
+      //     "--rounded-btn": "1rem",
+      //     color: "#000000", // Текст для светлой темы
+      //     headerbg: "#fff",
+      //   },
+      //   dark: {
+      //     primary: "#4f46e5", // Цвета для dark темы
+      //     secondary: "#0d9488",
+      //     accent: "#f59e0b",
+      //     neutral: "#111827",
+      //     "base-100": "#1f2937", // Базовый цвет фона
+      //     info: "#3b82f6",
+      //     success: "#10b981",
+      //     warning: "#f59e0b",
+      //     error: "#ef4444",
+      //     // Добавляем белый цвет текста для темной темы
+      //     "--rounded-btn": "1rem",
+      //     color: "#ffffff", // Текст для темной темы
+      //     headerbg: "#f3f4f6",
+      //   },
+      // },
+    ],
+  },
 };

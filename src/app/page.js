@@ -1,11 +1,13 @@
-import BackgroundVideo from "../components/BackgroundVideo";
-import Header from "../components/Header";
+"use client";
+import Home from "../components/Home";
+import { ContextProvider } from "../context/context";
 
-export default function Home() {
+export default function page() {
   return (
     <>
-      <Header />
-      <BackgroundVideo />
+      <ContextProvider>
+        <Home />
+      </ContextProvider>
     </>
   );
 }
