@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Select from "react-select";
-import { updateGraduateCertificateCount } from "../../../actions/updateCount";
+// import { updateGraduateCertificateCount } from "../../../actions/updateCount";
+import Loader from "../../../components/Loader";
 
 export default function AddCertificate() {
   const [graduatesOptions, setGraduatesOptions] = useState([]);
@@ -10,6 +11,7 @@ export default function AddCertificate() {
   const [file, setFile] = useState(null);
   const [filePath, setFilePath] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     owner: "",
     certificateNumber: "",
@@ -86,6 +88,8 @@ export default function AddCertificate() {
       setError("Пожалуйста, выберите файл для загрузки.");
       return;
     }
+
+    setLoading(true);
     const path = await handleUpload();
 
     const formDataToSend = {
@@ -108,7 +112,7 @@ export default function AddCertificate() {
 
       if (res.ok) {
         setError("");
-        console.log("Сертификат успешно создан!");
+        alert("Sertifikat yuklandi!");
         // await updateGraduateCertificateCount(formData.owner)
         //   .then((updatedGraduate) => {
         //     console.log("Данные выпускника обновлены:", updatedGraduate);
@@ -130,6 +134,7 @@ export default function AddCertificate() {
     } catch (error) {
       setError("Ошибка сети или сервера.");
     }
+    setLoading(false);
   };
 
   return (
@@ -220,7 +225,6 @@ export default function AddCertificate() {
             name="file"
             className="file-input file-input-bordered w-full max-w-xs"
           />
-          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
 
         <div className="form-control mt-6">
@@ -230,6 +234,8 @@ export default function AddCertificate() {
         {filePath && <p>Файл успешно загружен. Путь: {filePath}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
+
+      {loading && <Loader />}
     </div>
   );
 }

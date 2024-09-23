@@ -11,7 +11,6 @@ function FormatDate(date) {
 export default function index() {
   const { data: graduate } = useContext(Context);
   const [data, setData] = useState(null);
-  console.log(data, "data");
 
   useEffect(() => {
     async function getCertificates() {

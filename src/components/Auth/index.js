@@ -3,19 +3,19 @@ import { useContext, useRef, useState } from "react";
 import findGraduate from "../../actions/findGraduate";
 import { Context } from "../../context/context";
 import { useRouter } from "next/navigation";
+import Loader from "../Loader";
 
 export default function Auth({ closeModal }) {
   const { setData } = useContext(Context);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const passport = useRef(null);
   const jshir = useRef(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      passport: passport.current.value,
-      jshir: jshir.current.value,
-    });
+
+    setLoading(true);
     const graduate = await findGraduate(
       passport.current.value,
       jshir.current.value
@@ -28,6 +28,7 @@ export default function Auth({ closeModal }) {
     } else {
       setError("Ma'lumot topilmadi!");
     }
+    setLoading(false);
   };
   return (
     <section className="">
@@ -79,6 +80,7 @@ export default function Auth({ closeModal }) {
           </form>
         </div>
       </div>
+      {loading && <Loader />}
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Loader from "../../../components/Loader";
 
 export default function AddGraduate() {
   const [formData, setFormData] = useState({
@@ -8,7 +9,11 @@ export default function AddGraduate() {
     passport: "",
     jshir: "",
     graduationDate: "",
+    course: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const router = useRouter();
 
@@ -23,7 +28,7 @@ export default function AddGraduate() {
   // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await fetch("/api/addgraduate", {
         method: "POST",
@@ -36,15 +41,15 @@ export default function AddGraduate() {
       const result = await response.json();
 
       if (result.success) {
-        alert("Выпускник успешно добавлен!");
-        router.push("/"); // Перенаправление на главную страницу после успешной отправки
+        alert("Bitiruvchi muvaffaqiyatli qo'shildi!");
+        router.push("/dashboard");
       } else {
-        alert("Ошибка: " + result.message);
+        setError("Ошибка: " + result.message);
       }
     } catch (error) {
-      console.error("Ошибка при отправке данных:", error);
-      alert("Ошибка при отправке данных.");
+      setError("Ошибка при отправке данных.");
     }
+    setLoading(false);
   };
 
   return (
@@ -101,6 +106,27 @@ export default function AddGraduate() {
             required
           />
           <label className="label">
+            <span className="label-text text-lg">Kurs nomi:</span>
+          </label>
+          <select
+            className="w-full select select-bordered text-xl"
+            name="course"
+            value={formData.course}
+            defaultValue={"Kurs nomi"}
+            onChange={handleChange}>
+            <option value="Boshlang'ich">Boshlang'ich</option>
+            <option value="Podpolkovnik">Podpolkovnik</option>
+            <option value="Mayor">Mayor</option>
+            <option value="Zaxira">Zaxira</option>
+            <option value="Katta serjant">Katta serjant</option>
+            <option value="Masofa malaka oshirish">
+              Masofa malaka oshirish
+            </option>
+            <option value="Masofa qayta tayyorlash">
+              Masofa qayta tayyorlash
+            </option>
+          </select>
+          <label className="label">
             <span className="label-text text-lg">Sana</span>
           </label>
           <input
@@ -112,11 +138,14 @@ export default function AddGraduate() {
             required
           />
         </div>
-
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="form-control mt-6">
-          <button className="btn btn-primary">Qo'shish</button>
+          <button className="btn btn-primary text-white text-lg">
+            Qo'shish
+          </button>
         </div>
       </form>
+      {loading && <Loader />}
     </div>
   );
 }

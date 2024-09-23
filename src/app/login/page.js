@@ -3,18 +3,20 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Loader from "../../components/Loader";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const res = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -22,6 +24,7 @@ export default function Login() {
       },
       body: JSON.stringify({ email, password }),
     });
+    setLoading(false);
 
     if (res.ok) {
       const { token } = await res.json();
@@ -102,6 +105,7 @@ export default function Login() {
           {error && <p>{error}</p>}
         </div>
       </div>
+      {loading && <Loader />}
     </section>
   );
 }
