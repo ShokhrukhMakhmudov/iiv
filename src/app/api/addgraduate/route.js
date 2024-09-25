@@ -4,7 +4,7 @@ import Graduate from "../../../../models/Graduate";
 export async function POST(req, res) {
   await connectMongoDb();
 
-  const { name, passport, jshir, graduationDate } = await req.json(); // используйте req.json() для получения данных в Next.js API роуте
+  const { name, passport, jshir, graduationDate, course } = await req.json(); // используйте req.json() для получения данных в Next.js API роуте
 
   try {
     // Создание и сохранение нового выпускника
@@ -13,6 +13,7 @@ export async function POST(req, res) {
       passport,
       jshir,
       graduationDate,
+      course,
     });
 
     const savedGraduate = await graduate.save();
