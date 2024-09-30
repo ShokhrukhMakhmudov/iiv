@@ -6,6 +6,8 @@ import Loader from "../../../components/Loader";
 export default function AddGraduate() {
   const [formData, setFormData] = useState({
     name: "",
+    lastname: "",
+    surname: "",
     passport: "",
     jshir: "",
     graduationDate: "",
@@ -61,12 +63,36 @@ export default function AddGraduate() {
       <form className="card-body max-w-[700px] mx-auto" onSubmit={handleSubmit}>
         <div className="form-control">
           <label className="label">
-            <span className="label-text text-lg">Ism va Familiya</span>
+            <span className="label-text text-lg">Ism</span>
           </label>
           <input
             type="text"
             name="name"
-            placeholder="Ism va Familiya"
+            placeholder="Ism"
+            className="input input-bordered text-xl "
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          <label className="label">
+            <span className="label-text text-lg">Familiya</span>
+          </label>
+          <input
+            type="text"
+            name="lastname"
+            placeholder="Familiya"
+            className="input input-bordered text-xl "
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          <label className="label">
+            <span className="label-text text-lg">Otasining ismi</span>
+          </label>
+          <input
+            type="text"
+            name="surname"
+            placeholder="Otasining ismi"
             className="input input-bordered text-xl "
             value={formData.name}
             onChange={handleChange}

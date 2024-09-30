@@ -31,7 +31,7 @@ export default function AddCertificate() {
       const data = await response.json();
       const options = data.map((grad) => ({
         value: grad._id,
-        label: grad.name,
+        label: grad.lastname + " " + grad.name + " " + grad.surname,
       }));
       setGraduatesOptions(options);
     }
@@ -198,9 +198,7 @@ export default function AddCertificate() {
             className="input input-bordered text-xl"
             value={formData.certificateNumber}
             onChange={handleChange}
-            placeholder="123456"
-            pattern="[0-9]{6}"
-            title="Sertifikat raqami 6 raqam bo'lishi kerak"
+            placeholder="Sertifikat raqami"
             required
           />
           <label className="label">

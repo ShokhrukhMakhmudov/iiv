@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 const graduateSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  lastname: { type: String, required: true },
+  surname: { type: String, required: true },
   passport: { type: String, required: true, unique: true },
   jshir: { type: String, required: true, unique: true },
   course: { type: String, required: true },
