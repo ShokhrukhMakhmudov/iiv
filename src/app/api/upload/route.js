@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-
+import { config } from "../middleware";
 export async function POST(req) {
   try {
     // Получаем данные файла из запроса
@@ -40,3 +40,4 @@ export async function POST(req) {
     );
   }
 }
+export { config };

@@ -2,7 +2,6 @@
 
 import connectMongoDb from "../../../../lib/mongodb";
 import Certificate from "../../../../models/Certificate";
-
 export async function POST(req) {
   await connectMongoDb();
 

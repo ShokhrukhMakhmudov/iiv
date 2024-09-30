@@ -173,7 +173,13 @@ export default function page() {
               graduates.map((graduate, index) => (
                 <tr key={index}>
                   <th>{index + 1}</th>
-                  <td>{graduate.name}</td>
+                  <td>
+                    {graduate.name +
+                      " " +
+                      graduate?.lastname +
+                      " " +
+                      graduate?.surname}
+                  </td>
                   <td className="text-center">
                     {FormatDate(graduate.graduationDate)}
                   </td>
