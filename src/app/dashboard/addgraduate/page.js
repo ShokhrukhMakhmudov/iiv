@@ -82,7 +82,7 @@ export default function AddGraduate() {
             name="lastname"
             placeholder="Familiya"
             className="input input-bordered text-xl "
-            value={formData.name}
+            value={formData.lastname}
             onChange={handleChange}
             required
           />
@@ -94,7 +94,7 @@ export default function AddGraduate() {
             name="surname"
             placeholder="Otasining ismi"
             className="input input-bordered text-xl "
-            value={formData.name}
+            value={formData.surname}
             onChange={handleChange}
             required
           />
