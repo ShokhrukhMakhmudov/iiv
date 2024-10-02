@@ -1,13 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FormatDate } from "../../components/FormatDate";
 
 export default function page() {
+  const search = useRef(null);
   const [graduates, setGraduates] = useState(null);
   const [sort, setSort] = useState("all");
   const [filteredGraduates, setFilteredGraduates] = useState(null);
   const [certificates, setCertificates] = useState(null);
-  console.log(graduates);
 
   useEffect(() => {
     async function getGraduates() {
@@ -34,6 +34,7 @@ export default function page() {
     const filtered = graduates.filter((graduate) => {
       return graduate.course === type;
     });
+    search.current.value = "";
     setFilteredGraduates(filtered);
   }
 
@@ -76,6 +77,20 @@ export default function page() {
     }
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    const searchText = search.current.value.toLowerCase();
+
+    const filtered = graduates.filter((graduate) => {
+      const fullname =
+        graduate.name + " " + graduate?.lastname + " " + graduate?.surname;
+
+      return fullname.toLowerCase().includes(searchText);
+    });
+
+    setFilteredGraduates(filtered);
+  }
+
   return (
     <div className="container mt-10">
       <div className="stats stats-mobile w-full shadow shadow-white mb-10">
@@ -90,6 +105,33 @@ export default function page() {
             {certificates?.length ?? 0}
           </div>
         </div>
+      </div>
+      <div className="mb-5">
+        <form className="flex justify-between gap-5" onSubmit={handleSubmit}>
+          <label className="w-full input input-bordered flex items-center gap-2">
+            <input
+              ref={search}
+              id="search"
+              type="text"
+              className="grow"
+              placeholder="Bitiruvchini izlash..."
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="h-4 w-4 opacity-70">
+              <path
+                fillRule="evenodd"
+                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </label>
+          <button className="btn btn-outline" type="submit">
+            Qidirish
+          </button>
+        </form>
       </div>
       <div>
         <table className="table w-full text-xl">

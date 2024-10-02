@@ -5,3 +5,11 @@ export const config = {
     },
   },
 };
+
+export const config200 = {
+  api: {
+    bodyParser: {
+      sizeLimit: "200mb",
+    },
+  },
+};

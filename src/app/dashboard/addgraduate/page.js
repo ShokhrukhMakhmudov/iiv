@@ -138,7 +138,6 @@ export default function AddGraduate() {
             className="w-full select select-bordered text-xl"
             name="course"
             value={formData.course}
-            defaultValue={"Kurs nomi"}
             onChange={handleChange}>
             <option value="Boshlang'ich">Boshlang'ich</option>
             <option value="Podpolkovnik">Podpolkovnik</option>

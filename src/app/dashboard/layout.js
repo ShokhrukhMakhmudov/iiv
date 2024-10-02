@@ -47,6 +47,11 @@ const RootLayout = ({ children }) => {
             </p>
           </Link>
           <div className="flex gap-3">
+            <Link
+              href="/dashboard/uploadsertificates"
+              className="btn btn-outline">
+              Sertifikatlarni yuklash
+            </Link>
             <Link href="/dashboard/addgraduate" className="btn btn-outline">
               Bitiruvchi qo'shish
             </Link>
