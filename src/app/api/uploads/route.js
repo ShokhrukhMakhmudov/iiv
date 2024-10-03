@@ -5,8 +5,8 @@ import connectMongoDb from "../../../../lib/mongodb";
 import Certificate from "../../../../models/Certificate";
 import { config200 } from "../middleware";
 
-// Максимальный допустимый размер файла (например, 10 MB)
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+// Максимальный допустимый размер файла (например, 200 MB)
+const MAX_FILE_SIZE = 200 * 1024 * 1024;
 
 export async function POST(req) {
   await connectMongoDb();

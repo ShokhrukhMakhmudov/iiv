@@ -4,11 +4,9 @@ const graduateSchema = new mongoose.Schema({
   name: { type: String, required: true },
   lastname: { type: String, required: true },
   surname: { type: String, required: true },
+  photo: { type: String },
   passport: { type: String, required: true, unique: true },
   jshir: { type: String, required: true, unique: true },
-  course: { type: String, required: true },
-  graduationDate: { type: Date, required: true },
-  certificateCount: { type: Number, default: 0 },
 });
 
 const Graduate =

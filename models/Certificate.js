@@ -10,14 +10,10 @@ const certificateSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  issueDate: {
+  date: {
     type: Date,
-    default: Date.now,
   },
-  expirationDate: {
-    type: Date,
-    required: true,
-  },
+  course: { type: String, required: true },
   file: {
     type: String,
     required: true,

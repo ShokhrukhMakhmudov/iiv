@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "../../../components/Loader";
+import ImageInput from "../../../components/ImageInput";
 
 export default function AddGraduate() {
   const [formData, setFormData] = useState({
@@ -10,10 +11,9 @@ export default function AddGraduate() {
     surname: "",
     passport: "",
     jshir: "",
-    graduationDate: "",
-    course: "",
+    photo: "",
   });
-
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -26,11 +26,43 @@ export default function AddGraduate() {
       [e.target.name]: e.target.value,
     });
   };
+  const handleUpload = async () => {
+    if (!file) {
+      return null;
+    }
 
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/uploadphoto", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setError("");
+        return data.path;
+      } else {
+        setError(data.error || "Ошибка при загрузке файла.");
+      }
+    } catch (error) {
+      setError("Ошибка сети или сервера.");
+    }
+  };
   // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const photoPath = await handleUpload();
+
+    if (photoPath) {
+      formData.photo = photoPath;
+    }
+
     try {
       const response = await fetch("/api/addgraduate", {
         method: "POST",
@@ -62,42 +94,48 @@ export default function AddGraduate() {
 
       <form className="card-body max-w-[700px] mx-auto" onSubmit={handleSubmit}>
         <div className="form-control">
-          <label className="label">
-            <span className="label-text text-lg">Ism</span>
-          </label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Ism"
-            className="input input-bordered text-xl "
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <label className="label">
-            <span className="label-text text-lg">Familiya</span>
-          </label>
-          <input
-            type="text"
-            name="lastname"
-            placeholder="Familiya"
-            className="input input-bordered text-xl "
-            value={formData.lastname}
-            onChange={handleChange}
-            required
-          />
-          <label className="label">
-            <span className="label-text text-lg">Otasining ismi</span>
-          </label>
-          <input
-            type="text"
-            name="surname"
-            placeholder="Otasining ismi"
-            className="input input-bordered text-xl "
-            value={formData.surname}
-            onChange={handleChange}
-            required
-          />
+          <div className="flex items-center gap-10">
+            <ImageInput setFile={setFile} />
+            <div className="w-full">
+              <label className="label">
+                <span className="label-text text-lg">Ism</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Ism"
+                className="w-full input input-bordered text-xl"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+              <label className="label">
+                <span className="label-text text-lg">Familiya</span>
+              </label>
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Familiya"
+                className="input input-bordered text-xl w-full"
+                value={formData.lastname}
+                onChange={handleChange}
+                required
+              />
+              <label className="label">
+                <span className="label-text text-lg">Otasining ismi</span>
+              </label>
+              <input
+                type="text"
+                name="surname"
+                placeholder="Otasining ismi"
+                className="input input-bordered text-xl w-full"
+                value={formData.surname}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
           <label className="label">
             <span className="label-text text-lg">Pasport seriya va raqami</span>
           </label>
@@ -131,27 +169,8 @@ export default function AddGraduate() {
             onChange={handleChange}
             required
           />
-          <label className="label">
-            <span className="label-text text-lg">Kurs nomi:</span>
-          </label>
-          <select
-            className="w-full select select-bordered text-xl"
-            name="course"
-            value={formData.course}
-            onChange={handleChange}>
-            <option value="Boshlang'ich">Boshlang'ich</option>
-            <option value="Podpolkovnik">Podpolkovnik</option>
-            <option value="Mayor">Mayor</option>
-            <option value="Zaxira">Zaxira</option>
-            <option value="Katta serjant">Katta serjant</option>
-            <option value="Masofa malaka oshirish">
-              Masofa malaka oshirish
-            </option>
-            <option value="Masofa qayta tayyorlash">
-              Masofa qayta tayyorlash
-            </option>
-          </select>
-          <label className="label">
+
+          {/* <label className="label">
             <span className="label-text text-lg">Sana</span>
           </label>
           <input
@@ -161,7 +180,7 @@ export default function AddGraduate() {
             value={formData.graduationDate}
             onChange={handleChange}
             required
-          />
+          /> */}
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="form-control mt-6">
