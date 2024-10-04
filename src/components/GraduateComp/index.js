@@ -31,7 +31,7 @@ export default function index() {
             <div className="flex items-center justify-center gap-10 p-5">
               <img
                 className="hidden md:block"
-                src="/user.png"
+                src={graduate?.photo ?? "/user.png"}
                 alt="user image"
                 width={250}
               />
