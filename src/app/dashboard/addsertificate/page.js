@@ -7,15 +7,17 @@ import Loader from "../../../components/Loader";
 
 export default function AddCertificate() {
   const [graduatesOptions, setGraduatesOptions] = useState([]);
+  const [certificatesOptions, setCertificatesOptions] = useState([]);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [selectedGraduate, setSelectedGraduate] = useState(null);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
   const [filePath, setFilePath] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     owner: "",
     certificateNumber: "",
-    expirationDate: "",
+    date: "",
   });
 
   const router = useRouter();
@@ -36,7 +38,24 @@ export default function AddCertificate() {
       setGraduatesOptions(options);
     }
 
+    async function fetchCertificates() {
+      const response = await fetch("/api/certificate?owner=unknown", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      const options = data.map((grad) => ({
+        value: grad._id,
+        label: grad.file.slice(9),
+        course: grad.course,
+      }));
+      setCertificatesOptions(options);
+    }
+
     fetchGraduates();
+    fetchCertificates();
   }, []);
 
   const handleGraduateChange = (selectedOption) => {
@@ -44,6 +63,14 @@ export default function AddCertificate() {
     setFormData({
       ...formData,
       owner: selectedOption ? selectedOption.value : "",
+    });
+  };
+
+  const handleCertificateChange = (selectedOption) => {
+    setSelectedCertificate(selectedOption);
+    setFormData({
+      ...formData,
+      certificate: selectedOption ? selectedOption.value : "",
     });
   };
 
@@ -84,55 +111,87 @@ export default function AddCertificate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!file) {
-      setError("Пожалуйста, выберите файл для загрузки.");
-      return;
+    setLoading(true);
+
+    if (!file || !selectedGraduate) {
+      setLoading(false);
+      return setError("Fayl tanlanmadi!");
     }
 
-    setLoading(true);
-    const path = await handleUpload();
+    if (selectedCertificate) {
+      const formDataToSend = {
+        owner: formData.owner,
+        certificateNumber: formData.certificateNumber,
+        date: formData.date,
+        file: selectedCertificate.value,
+      };
 
-    const formDataToSend = {
-      owner: formData.owner,
-      certificateNumber: formData.certificateNumber,
-      expirationDate: formData.expirationDate,
-      file: path,
-    };
-
-    try {
-      const res = await fetch("/api/certificate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formDataToSend),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setError("");
-        alert("Sertifikat yuklandi!");
-        // await updateGraduateCertificateCount(formData.owner)
-        //   .then((updatedGraduate) => {
-        //     console.log("Данные выпускника обновлены:", updatedGraduate);
-        //   })
-        //   .catch(() => {
-        //     alert("Ошибка:", "Не удалось обновить данные выпускника");
-        //   })
-        //   .finally(() => {
-        //   });
-        setFormData({
-          owner: "",
-          certificateNumber: "",
-          expirationDate: "",
+      try {
+        const res = await fetch("/api/certificate/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataToSend),
         });
-        router.push("/dashboard");
-      } else {
-        setError(data.error || "Ошибка при загрузке файла.");
+
+        const data = await res.json();
+
+        if (res.ok) {
+          setError("");
+          alert("Sertifikat yuklandi!");
+
+          setFormData({
+            owner: "",
+            certificateNumber: "",
+            expirationDate: "",
+          });
+          router.push("/dashboard");
+        } else {
+          setError(data.error || "Ошибка при загрузке файла.");
+        }
+      } catch (error) {
+        setError("Ошибка сети или сервера.");
       }
-    } catch (error) {
-      setError("Ошибка сети или сервера.");
+    } else {
+      const path = await handleUpload();
+
+      const formDataToSend = {
+        owner: formData.owner,
+        certificateNumber: formData.certificateNumber,
+        date: formData.date,
+        file: path,
+        course: formData.course,
+      };
+
+      try {
+        const res = await fetch("/api/certificate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataToSend),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          setError("");
+          alert("Sertifikat yuklandi!");
+
+          setFormData({
+            owner: "",
+            certificateNumber: "",
+            date: "",
+            course: "",
+          });
+          router.push("/dashboard");
+        } else {
+          setError(data.error || "Ошибка при загрузке файла.");
+        }
+      } catch (error) {
+        setError("Ошибка сети или сервера.");
+      }
     }
     setLoading(false);
   };
@@ -146,6 +205,7 @@ export default function AddCertificate() {
       <form className="card-body max-w-[700px] mx-auto" onSubmit={handleSubmit}>
         <div className="form-control">
           {/* Выпадающий список для выбора выпускника */}
+
           <Select
             className="text-xl "
             required
@@ -188,7 +248,6 @@ export default function AddCertificate() {
               <h3>Выбранный выпускник: {selectedGraduate.label}</h3>
             </div>
           )}
-
           <label className="label">
             <span className="label-text text-lg">Sertifikat raqami</span>
           </label>
@@ -206,23 +265,95 @@ export default function AddCertificate() {
           </label>
           <input
             type="date"
-            name="expirationDate"
-            className="input input-bordered text-xl"
-            value={formData.expirationDate}
+            name="date"
+            className="input input-bordered text-xl mb-5"
+            value={formData.date}
             onChange={handleChange}
             required
           />
-
+          {!file && (
+            <Select
+              className="text-xl "
+              required
+              name="owner"
+              value={selectedCertificate}
+              onChange={handleCertificateChange}
+              options={certificatesOptions}
+              placeholder="Sertifikatni tanlang"
+              isSearchable={true}
+              isClearable={true}
+              isMulti={false}
+              styles={{
+                menu: (base) => ({
+                  ...base,
+                  background: "#fff",
+                  color: "#000",
+                }),
+                option: (base) => ({
+                  ...base,
+                  background: "#fff",
+                  color: "#000",
+                  ":hover": {
+                    background: "#1d232a",
+                    color: "#fff",
+                    cursor: "pointer",
+                  },
+                }),
+              }}
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  primary25: "#1d232a",
+                  primary: "#fff",
+                },
+              })}
+            />
+          )}
+          {selectedCertificate && (
+            <div>
+              <h3 className="mt-5">Kurs nomi: {selectedCertificate.course}</h3>
+            </div>
+          )}
           {/* Загрузка файла */}
-          <label className="label">
-            <span className="label-text text-lg">Faylni yuklash</span>
-          </label>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            name="file"
-            className="file-input file-input-bordered w-full max-w-xs"
-          />
+          {!selectedCertificate && (
+            <>
+              <label className="label">
+                <span className="label-text text-lg">Faylni yuklash</span>
+              </label>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                name="file"
+                className="file-input file-input-bordered w-full max-w-xs"
+              />
+            </>
+          )}
+
+          {file && (
+            <>
+              <label className="label">
+                <span className="label-text text-lg">Kurs nomi:</span>
+              </label>
+              <select
+                className="select select-bordered text-xl text-white text-center"
+                name="course"
+                value={formData.course}
+                onChange={handleChange}
+                required>
+                <option value="Boshlang'ich">Boshlang'ich</option>
+                <option value="Podpolkovnik">Podpolkovnik</option>
+                <option value="Mayor">Mayor</option>
+                <option value="Zaxira">Zaxira</option>
+                <option value="Katta serjant">Katta serjant</option>
+                <option value="Masofa malaka oshirish">
+                  Masofa malaka oshirish
+                </option>
+                <option value="Masofa qayta tayyorlash">
+                  Masofa qayta tayyorlash
+                </option>
+              </select>
+            </>
+          )}
         </div>
 
         <div className="form-control mt-6">

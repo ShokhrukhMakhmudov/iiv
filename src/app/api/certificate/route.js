@@ -6,15 +6,16 @@ export async function POST(req) {
   await connectMongoDb();
 
   // Получаем данные сертификата из запроса
-  const { owner, certificateNumber, expirationDate, file } = await req.json();
+  const { owner, certificateNumber, date, file, course } = await req.json();
 
   try {
     // Создание нового сертификата
     const certificate = new Certificate({
       owner,
       certificateNumber,
-      expirationDate,
+      date,
       file,
+      course,
     });
 
     // Сохраняем сертификат в базу данных
