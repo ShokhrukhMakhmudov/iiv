@@ -48,9 +48,8 @@ export async function POST(req) {
       // Сохраняем информацию о сертификате в базе данных
       const certificate = new Certificate({
         owner: "unknown",
-        certificateNumber: fileName,
-        expirationDate: new Date(),
-        file: `/uploads/${fileName}`, // Относительный путь к файлу
+        file: `/uploads/${fileName}`,
+        course: formData.get("course"),
       });
 
       await certificate.save();
