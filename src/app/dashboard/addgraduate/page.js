@@ -98,18 +98,6 @@ export default function AddGraduate() {
             <ImageInput setFile={setFile} />
             <div className="w-full">
               <label className="label">
-                <span className="label-text text-lg">Ism</span>
-              </label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Ism"
-                className="w-full input input-bordered text-xl"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <label className="label">
                 <span className="label-text text-lg">Familiya</span>
               </label>
               <input
@@ -121,6 +109,19 @@ export default function AddGraduate() {
                 onChange={handleChange}
                 required
               />
+              <label className="label">
+                <span className="label-text text-lg">Ism</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Ism"
+                className="w-full input input-bordered text-xl"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+
               <label className="label">
                 <span className="label-text text-lg">Otasining ismi</span>
               </label>

@@ -40,10 +40,10 @@ export default function index() {
                   Bitiruvchi ma'lumotlari
                 </h3>
                 <h3 className="text-2xl mb-5">
-                  Ism: <b>{graduate.name}</b>
+                  Familiya: <b>{graduate.lastname}</b>
                 </h3>
                 <h3 className="text-2xl mb-5">
-                  Familiya: <b>{graduate.lastname}</b>
+                  Ism: <b>{graduate.name}</b>
                 </h3>
                 <h3 className="text-2xl mb-5">
                   Otasining ismi: <b>{graduate.surname}</b>
