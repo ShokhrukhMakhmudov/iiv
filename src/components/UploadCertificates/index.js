@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
+import Loader from "../Loader";
 
 export default function UploadCertificates() {
   const [files, setFiles] = useState([]);
   const [course, setCourse] = useState("Boshlang'ich");
+  
+  const [loading, setLoading] = useState(false);
   // Обработчик изменения файлов
   const handleFileChange = (e) => {
     setFiles(e.target.files);
@@ -31,6 +34,7 @@ export default function UploadCertificates() {
 
     formData.append("course", course);
     try {
+      setLoading(true);
       const response = await fetch("/api/uploads", {
         method: "POST",
         body: formData, // Отправляем файлы
@@ -47,9 +51,12 @@ export default function UploadCertificates() {
       console.error("Ошибка при загрузке файлов:", error);
       alert("Ошибка при загрузке файлов.");
     }
+      setLoading(false);
+
   };
 
   return (
+    <>
     <div className="container mt-10">
       <h1 className="text-4xl font-bold mb-5 text-center">
         Sertifikatlarni yuklash
@@ -95,5 +102,7 @@ export default function UploadCertificates() {
         </div>
       </form>
     </div>
+    {loading && <Loader />}
+    </>
   );
 }
