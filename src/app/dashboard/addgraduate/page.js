@@ -78,10 +78,10 @@ export default function AddGraduate() {
         alert("Bitiruvchi muvaffaqiyatli qo'shildi!");
         router.push("/dashboard");
       } else {
-        setError("Ошибка: " + result.message);
+        setError("Xatolik: " + result.message);
       }
     } catch (error) {
-      setError("Ошибка при отправке данных.");
+      setError("Malumotlarni saqlashda xatolik yuz berdi.");
     }
     setLoading(false);
   };
@@ -94,7 +94,7 @@ export default function AddGraduate() {
 
       <form className="card-body max-w-[700px] mx-auto" onSubmit={handleSubmit}>
         <div className="form-control">
-          <div className="flex items-center gap-10">
+          <div className="flex sm:flex-row flex-col items-center gap-10">
             <ImageInput setFile={setFile} />
             <div className="w-full">
               <label className="label">

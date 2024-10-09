@@ -12,8 +12,8 @@ export async function POST(req, res) {
       name,
       surname,
       lastname,
-      passport,
-      jshir,
+      passport: passport.toUpperCase().trim(),
+      jshir: jshir.toUpperCase().trim(),
       photo,
     });
 

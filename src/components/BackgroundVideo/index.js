@@ -33,11 +33,11 @@ const BackgroundVideo = () => {
       </video>
 
       <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="max-w-[700px] text-white text-center mt-[-100px]">
-          <h2 className="text-3xl font-bold mb-5 font-mont uppercase">
+        <div className="max-w-[700px] text-white text-center mt-[-50px] sm:mt-[-100px]">
+          <h2 className="text-xl sm:text-3xl font-bold mb-5 font-mont uppercase">
             Ichki Ishlar Vazirligi <br /> Malaka Oshirish Instituti
           </h2>
-          <p className="text-2xl">
+          <p className="text-xl sm:text-2xl">
             Bizning saytimiz Ichki Ishlar Vazirligi Malaka Oshirish
             Institutining rasmiy sertifikat olish platformasidir. Bu yerda siz
             malaka oshirish kurslarini muvaffaqiyatli tamomlaganingizdan so‘ng,

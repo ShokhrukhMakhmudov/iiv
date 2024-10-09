@@ -39,14 +39,14 @@ const RootLayout = ({ children }) => {
   return (
     <div>
       <header className="w-full   header bg-foreground text-background font-montMed shadow-lg border-b-2 border-white">
-        <div className="container py-4 flex items-center justify-between">
+        <div className="container py-4 flex flex-col gap-3 md:gap-0 md:flex-row items-center justify-between">
           <Link href="/dashboard" className="logo flex items-center gap-3">
             <img src="/iiv.png" alt="logo" width={60} height={60} />
             <p className="font-semibold text-white">
               ICHKI ISHLAR VAZIRLIGI <br /> MALAKA OSHIRISH INSTITUTI
             </p>
           </Link>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/dashboard/uploadsertificates"
               className="btn btn-outline">

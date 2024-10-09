@@ -41,7 +41,7 @@ export default function Login() {
       <div className="container h-full flex flex-col items-center justify-center">
         <div className="flex flex-col items-center border py-5 rounded-xl shadow-2xl px-10 backdrop-filter backdrop-blur">
           <h2 className="text-2xl font-bold mb-5 text-white">Avtorizatsiya</h2>
-          <form className="flex flex-col  w-[400px]" onSubmit={handleLogin}>
+          <form className="flex flex-col max-w-[400px] sm:w-[400px]" onSubmit={handleLogin}>
             <input
               className="border px-3 py-2 rounded-lg text-xl mb-5 bg-white outline-[#c1c1c1] text-black"
               type="email"

@@ -103,9 +103,9 @@ export default function page() {
   return (
     <>
       <div className="container mt-10">
-        <div className="stats stats-mobile w-full shadow shadow-white mb-10">
+        <div className="stats stats-mobile w-full shadow shadow-white mb-10 mx-auto">
           <div className="stat place-items-center">
-            <div className="stat-title">Bitiruvchilar</div>
+            <div className="stat-title font-bold">Bitiruvchilar</div>
             <div className="stat-value">{graduates?.length ?? 0}</div>
           </div>
 
@@ -116,7 +116,7 @@ export default function page() {
             </div>
           </div>
         </div>
-        <div className="mb-5">
+        <div className="mb-5 px-2 sm:px-0">
           <form className="flex justify-between gap-5" onSubmit={handleSubmit}>
             <label className="w-full input input-bordered flex items-center gap-2">
               <input
@@ -177,35 +177,7 @@ export default function page() {
                     }>
                     Rasm
                   </label>
-                  {/* <input
-                  id="date"
-                  name="sort"
-                  type="radio"
-                  className="appearance-none"
-                  onChange={(e) =>
-                    e.target.checked ? sortData("date") : sortData("all")
-                  }
-                /> */}
                 </th>
-                {/* <th className="text-center">
-                <select
-                  className="select select-bordered text-xl text-white text-center"
-                  name="course"
-                  onChange={(e) => filterData(e.target.value)}>
-                  <option value="all">Kurs nomi</option>
-                  <option value="Boshlang'ich">Boshlang'ich</option>
-                  <option value="Podpolkovnik">Podpolkovnik</option>
-                  <option value="Mayor">Mayor</option>
-                  <option value="Zaxira">Zaxira</option>
-                  <option value="Katta serjant">Katta serjant</option>
-                  <option value="Masofa malaka oshirish">
-                    Masofa malaka oshirish
-                  </option>
-                  <option value="Masofa qayta tayyorlash">
-                    Masofa qayta tayyorlash
-                  </option>
-                </select>
-              </th> */}
               </tr>
             </thead>
             <tbody>
@@ -239,7 +211,6 @@ export default function page() {
                             width={105}
                             height={135}
                             src={graduate?.photo}
-                            
                             alt="graduate photo"
                           />
                           <span
