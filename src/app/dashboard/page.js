@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { FormatDate } from "../../components/FormatDate";
+import Image from "next/image";
 
 export default function page() {
   const search = useRef(null);
@@ -233,9 +234,12 @@ export default function page() {
                               e.target.parentElement.children[1].style.display =
                                 "none";
                           }}>
-                          <img
-                            className="h-[135px] w-[105px] object-cover object-center "
-                            src={graduate.photo}
+                          <Image
+                            className="h-[135px] w-[105px] object-cover object-center"
+                            width={105}
+                            height={135}
+                            src={graduate?.photo}
+                            
                             alt="graduate photo"
                           />
                           <span

@@ -113,7 +113,7 @@ export default function AddCertificate() {
 
     setLoading(true);
 
-    if (!file || !selectedGraduate) {
+    if (!file && !selectedCertificate?.value) {
       setLoading(false);
       return setError("Fayl tanlanmadi!");
     }
