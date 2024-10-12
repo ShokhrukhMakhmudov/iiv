@@ -15,6 +15,13 @@
   .container {
     margin-inline: auto;
   }
+  .adminPage{
+      height: 100%;
+      /* background: url("/image.jpg")  no-repeat; */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+  }
   .loginPage {
     height: 100%;
     background: url("/bg.png") #5c5c5c no-repeat;

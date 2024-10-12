@@ -43,7 +43,7 @@ export async function GET(req) {
 
   try {
     if (!owner) {
-      const certificates = await Certificate.find();
+      const certificates = await Certificate.find().sort({ date: -1 });
       return new Response(JSON.stringify(certificates), {
         status: 200,
       });

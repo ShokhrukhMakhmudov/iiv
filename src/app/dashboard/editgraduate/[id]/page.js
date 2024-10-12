@@ -1,15 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "../../../components/Loader";
-import ImageInput from "../../../components/ImageInput";
+import Loader from "../../../../components/Loader";
+import ImageInput from "../../../../components/ImageInput";
+import Image from "next/image";
 
-export default function AddGraduate() {
+export default function page({ params }) {
+  const graduateId = params.id;
+
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     lastname: "",
     surname: "",
-    passport: "",
+    passport: "", 
     jshir: "",
     photo: "",
   });
@@ -17,9 +22,24 @@ export default function AddGraduate() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const router = useRouter();
+  useEffect(() => {
+    fetch(`/api/addgraduate?id=${graduateId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setFormData({
+          id: data[0]?._id,
+          name: data[0]?.name,
+          lastname: data[0]?.lastname,
+          surname: data[0]?.surname,
+          passport: data[0]?.passport,
+          jshir: data[0]?.jshir,
+          photo: data[0]?.photo,
+        });
+        setIsLoading(false);
+      });
+  }, [graduateId]);
 
-  // Обработчик изменения значений полей формы
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -64,8 +84,8 @@ export default function AddGraduate() {
     }
 
     try {
-      const response = await fetch("/api/addgraduate", {
-        method: "POST",
+      const response = await fetch("/api/updategraduate", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -75,8 +95,8 @@ export default function AddGraduate() {
       const result = await response.json();
 
       if (result.success) {
-        alert("Bitiruvchi muvaffaqiyatli qo'shildi!");
-        router.push("/dashboard");
+        alert("Bitiruvchi muvaffaqiyatli o'zgartirildi!");
+    
       } else {
         setError("Xatolik: " + result.message);
       }
@@ -86,16 +106,32 @@ export default function AddGraduate() {
     setLoading(false);
   };
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="container mt-10">
       <h1 className="text-4xl font-bold mb-5 text-center">
-        Bitiruvchi qo'shish
+        Bitiruvchi tahrirlash
       </h1>
 
       <form className="card-body max-w-[700px] mx-auto" onSubmit={handleSubmit}>
         <div className="form-control">
           <div className="flex sm:flex-row flex-col items-center gap-10">
-            <ImageInput setFile={setFile} />
+            {!formData.photo && <ImageInput setFile={setFile}/>}
+            {formData.photo && <div className="relative flex flex-col items-center justify-center rounded-xl min-w-[200px] min-h-[245px]">
+              {!file && <img
+                className="w-[200px] h-[245px] object-cover rounded-xl"
+                width={200}
+                height={245}
+                src={`${formData.photo}`}
+                alt="rasm"
+              />}
+              <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 z-10">
+                <ImageInput setFile={setFile} photo={formData.photo}/>
+              </div>
+            </div>}
             <div className="w-full">
               <label className="label">
                 <span className="label-text text-lg">Familiya</span>
@@ -170,23 +206,11 @@ export default function AddGraduate() {
             onChange={handleChange}
             required
           />
-
-          {/* <label className="label">
-            <span className="label-text text-lg">Sana</span>
-          </label>
-          <input
-            type="date"
-            name="graduationDate"
-            className="input input-bordered text-xl"
-            value={formData.graduationDate}
-            onChange={handleChange}
-            required
-          /> */}
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="form-control mt-6">
           <button className="btn btn-primary text-white text-lg">
-            Qo'shish
+            O'zgartirish
           </button>
         </div>
       </form>

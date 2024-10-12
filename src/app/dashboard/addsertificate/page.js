@@ -10,6 +10,7 @@ export default function AddCertificate() {
   const [certificatesOptions, setCertificatesOptions] = useState([]);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [selectedGraduate, setSelectedGraduate] = useState(null);
+  const [filterCertificates, setFilterCertificates] = useState("all");
   const [file, setFile] = useState("");
   const [filePath, setFilePath] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +20,7 @@ export default function AddCertificate() {
     certificateNumber: "",
     date: "",
   });
-
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -187,10 +188,10 @@ export default function AddCertificate() {
           });
           router.push("/dashboard");
         } else {
-          setError(data.error || "Ошибка при загрузке файла.");
+          setError(data.error || "Faylni yuklashda xatolik.");
         }
       } catch (error) {
-        setError("Ошибка сети или сервера.");
+        setError("Tarmoq yoki serverda xatolik!");
       }
     }
     setLoading(false);
@@ -245,7 +246,7 @@ export default function AddCertificate() {
 
           {selectedGraduate && (
             <div>
-              <h3>Выбранный выпускник: {selectedGraduate.label}</h3>
+              <h3>Bitiruvchi: {selectedGraduate.label}</h3>
             </div>
           )}
           <label className="label">
@@ -272,42 +273,63 @@ export default function AddCertificate() {
             required
           />
           {!file && (
-            <Select
-              className="text-xl "
-              required
-              name="owner"
-              value={selectedCertificate}
-              onChange={handleCertificateChange}
-              options={certificatesOptions}
-              placeholder="Sertifikatni tanlang"
-              isSearchable={true}
-              isClearable={true}
-              isMulti={false}
-              styles={{
-                menu: (base) => ({
-                  ...base,
-                  background: "#fff",
-                  color: "#000",
-                }),
-                option: (base) => ({
-                  ...base,
-                  background: "#fff",
-                  color: "#000",
-                  ":hover": {
-                    background: "#1d232a",
-                    color: "#fff",
-                    cursor: "pointer",
+            <div className="w-full flex gap-5">
+              <Select
+                className="text-xl w-full"
+                required
+                name="owner"
+                value={selectedCertificate}
+                onChange={handleCertificateChange}
+                options={certificatesOptions && certificatesOptions.filter((item) => filterCertificates === 'all' ? true : item.course.toLowerCase() === filterCertificates.toLowerCase())}
+                placeholder="Sertifikatni tanlang"
+                isSearchable={true}
+                isClearable={true}
+                isMulti={false}
+                styles={{
+                  menu: (base) => ({
+                    ...base,
+                    background: "#fff",
+                    color: "#000",
+                  }),
+                  option: (base) => ({
+                    ...base,
+                    background: "#fff",
+                    color: "#000",
+                    ":hover": {
+                      background: "#1d232a",
+                      color: "#fff",
+                      cursor: "pointer",
+                    },
+                  }),
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    primary25: "#1d232a",
+                    primary: "#fff",
                   },
-                }),
-              }}
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  primary25: "#1d232a",
-                  primary: "#fff",
-                },
-              })}
-            />
+                })}
+              />
+              <select
+                className="select select-bordered text-xl text-white text-center max-w-[200px]"
+                name="course"
+                value={filterCertificates}
+                onChange={(e) => setFilterCertificates(e.target.value)}
+                required>
+                  <option value="all">Barchasi</option>
+                <option value="Boshlang'ich">Boshlang'ich</option>
+                <option value="Podpolkovnik">Podpolkovnik</option>
+                <option value="Mayor">Mayor</option>
+                <option value="Zaxira">Zaxira</option>
+                <option value="Katta serjant">Katta serjant</option>
+                <option value="Masofa malaka oshirish">
+                  Masofa malaka oshirish
+                </option>
+                <option value="Masofa qayta tayyorlash">
+                  Masofa qayta tayyorlash
+                </option>
+              </select>
+            </div>
           )}
           {selectedCertificate && (
             <div>

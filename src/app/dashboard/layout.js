@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Loader from "../../components/Loader";
 
 const RootLayout = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,11 +34,11 @@ const RootLayout = ({ children }) => {
   }, [router]);
 
   if (isLoading) {
-    return <div>Загрузка...</div>;
+    return <Loader/>
   }
 
   return (
-    <div>
+    <div className="adminPage">
       <header className="w-full   header bg-foreground text-background font-montMed shadow-lg border-b-2 border-white">
         <div className="container py-4 flex flex-col gap-3 md:gap-0 md:flex-row items-center justify-between">
           <Link href="/dashboard" className="logo flex items-center gap-3">

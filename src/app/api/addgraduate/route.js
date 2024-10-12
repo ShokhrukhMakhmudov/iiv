@@ -30,11 +30,21 @@ export async function POST(req, res) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+
+
   await connectMongoDb();
 
   try {
-    const graduates = await Graduate.find(); // Получаем всех выпускников из базы данных
+     if (!id) {
+       const graduates = await Graduate.find(); // Получаем всех выпускников из базы данных
+       return new Response(JSON.stringify(graduates), {
+         status: 200,
+       });
+     }
+    const graduates = await Graduate.find({ _id: id });
     return new Response(JSON.stringify(graduates), {
       status: 200,
     });
