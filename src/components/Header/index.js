@@ -28,7 +28,7 @@ export default function Header() {
       <div className="container py-4 flex items-center justify-between px-2 sm:px-0">
         <div className="logo flex items-center gap-3">
           <img
-            src="/iiv.png"
+            src="/bg.png"
             alt="logo"
             className="w-[40px] h-[40px] sm:w-[60px] sm:h-[60px]"
             width={60}

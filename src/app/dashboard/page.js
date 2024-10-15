@@ -86,23 +86,21 @@ export default function page() {
   }
 
   function handleSearchCertificates(e) {
-   e.preventDefault();
-   const searchText = searchCertificates.current.value.toLowerCase();
+    e.preventDefault();
+    const searchText = searchCertificates.current.value.toLowerCase();
 
-   if (searchText === "") {
-     setFilteredCertificates(null);
-     return;
-   }
+    if (searchText === "") {
+      setFilteredCertificates(null);
+      return;
+    }
 
-   const filtered = certificates.filter((certificate) => {
-     
+    const filtered = certificates.filter((certificate) => {
+      return certificate?.certificateNumber
+        ? certificate?.certificateNumber.toLowerCase().includes(searchText)
+        : false;
+    });
 
-     return certificate?.certificateNumber ? certificate?.certificateNumber
-       .toLowerCase()
-       .includes(searchText) : false
-   });
-
-   setFilteredCertificates(filtered);
+    setFilteredCertificates(filtered);
   }
 
   function handleSubmit(e) {
@@ -124,6 +122,30 @@ export default function page() {
     document.getElementById("modalImg").src = photoPath;
   }
 
+  function showCertificate(data) {
+    document.getElementById("certificateNumber").innerText =
+      data.certificateNumber ?? data.file.slice(9);
+    document.getElementById("certificateCourse").innerText = data.course;
+    document.getElementById("certificateDate").innerText = data.date
+      ? FormatDate(data.date)
+      : "Berilmagan";
+
+    const owner =
+      graduates && graduates.find((graduate) => graduate._id === data.owner);
+
+    if (owner) {
+      document.getElementById(
+        "certificateOwner"
+      ).innerText = `${owner?.lastname} ${owner?.name} ${owner?.surname}`;
+      document.getElementById("certificateOwnerPhoto").src = owner?.photo;
+    } else {
+      document.getElementById("certificateOwner").innerText = `Berilmagan`;
+      document.getElementById("certificateOwnerPhoto").style.display = "none";
+    }
+
+    document.getElementById("modalCertificate").showModal();
+  }
+
   const certificateCounts = useMemo(() => {
     const counts = {};
     certificates?.forEach((certificate) => {
@@ -139,7 +161,6 @@ export default function page() {
     });
     return counts;
   }, [certificates]);
-  console.log(certificateCounts);
 
   return (
     <>
@@ -288,7 +309,7 @@ export default function page() {
                                 alt="graduate photo"
                               />
                               <span
-                                className="absolute top-0 right-0 w-full h-full flex  items-center justify-center bg-[#00000075] backdrop-blur-sm cursor-pointer"
+                                className="absolute top-0 right-0 w-full h-full flex items-center justify-center bg-[#00000075] backdrop-blur-sm cursor-pointer"
                                 style={{ display: "none" }}
                                 onClick={() => showPhoto(graduate.photo)}>
                                 <svg
@@ -300,7 +321,9 @@ export default function page() {
                                   width="25px"
                                   xmlns="http://www.w3.org/2000/svg">
                                   <circle cx="256" cy="256" r="64"></circle>
-                                  <path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 252 96 255.66 96c-42.52 0-84.33 12.15-124.27 36.11-40.73 24.43-77.63 60.12-109.68 106.07a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416c46.71 0 93.81-14.43 136.2-41.72 38.46-24.77 72.72-59.66 99.08-100.92a32.2 32.2 0 0 0-.1-34.76zM256 352a96 96 0 1 1 96-96 96.11 96.11 0 0 1-96 96z"></path>
+                                  <path
+                                    d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 252 96 255.66 96c-42.52 0-84.33 12.15-124.27 36.11-40.73 24.43-77.63 60.12-109.68 106.07a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416c46.71 0 93.81-14.43 136.2-41.72 38.46-24.77 72.72-59.66 99.08-100.92a32.2 32.2 0 0 0-.1-34.76zM256 352a96 96 0 1 1 96-96 96.11 96.11 0 0 1-96 96z"
+                                    style={{ display: "block" }}></path>
                                 </svg>
                               </span>
                             </div>
@@ -439,7 +462,7 @@ export default function page() {
                           (sort === "name" ? "btn-outline " : "") +
                           "select-none cursor-pointer btn"
                         }>
-                        Raqam
+                        Raqam / Fayl nomi
                       </label>
                       <input
                         id="name"
@@ -460,7 +483,10 @@ export default function page() {
                     filteredCertificates.map((certificate, index) => (
                       <tr key={certificate?._id}>
                         <th>{index + 1}</th>
-                        <td>{certificate.certificateNumber ?? "Berilmagan"}</td>
+                        <td>
+                          {certificate.certificateNumber ??
+                            certificate.file.slice(9)}
+                        </td>
                         <td className="text-center">{certificate.course}</td>
                         <td className="text-center">
                           {certificate.date
@@ -469,11 +495,15 @@ export default function page() {
                         </td>
                       </tr>
                     ))}
-                  {certificates && !filteredCertificates &&
+                  {certificates &&
+                    !filteredCertificates &&
                     certificates.map((certificate, index) => (
                       <tr key={certificate?._id}>
                         <th>{index + 1}</th>
-                        <td>{certificate.certificateNumber ?? "Berilmagan"}</td>
+                        <td onClick={() => showCertificate(certificate)}>
+                          {certificate.certificateNumber ??
+                            certificate.file.slice(9)}
+                        </td>
                         <td className="text-center">{certificate.course}</td>
                         <td className="text-center">
                           {certificate.date
@@ -489,6 +519,7 @@ export default function page() {
         )}
       </div>
 
+      {/* Modal Photo */}
       <dialog id="modalPhoto" className="modal">
         <div className="modal-box w-fit">
           <img
@@ -496,6 +527,36 @@ export default function page() {
             className="h-[135px] w-[105px] object-cover object-center "
             src=""
             style={{ zoom: 3 }}
+            alt="graduate photo"
+          />
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>Yopish</button>
+        </form>
+      </dialog>
+
+      {/* Modal Certificate */}
+      <dialog id="modalCertificate" className="modal">
+        <div className="modal-box w-fit flex ">
+          <div>
+            <p>
+              Raqam/Fayl: <span id="certificateNumber"></span>
+            </p>
+            <p>
+              Kurs nomi: <span id="certificateCourse"></span>
+            </p>
+            <p>
+              Sana: <span id="certificateDate"></span>
+            </p>
+            <p>
+              Bitiruvchi: <span id="certificateOwner"></span>
+            </p>
+          </div>
+
+          <img
+            id="certificateOwnerPhoto"
+            className="h-[135px] w-[105px] object-cover object-center border"
+            src=""
             alt="graduate photo"
           />
         </div>
