@@ -3,10 +3,12 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { FormatDate } from "../../components/FormatDate";
 import Image from "next/image";
 import Link from "next/link";
+import Loader from "../../components/Loader";
 
 export default function page() {
   const search = useRef(null);
   const searchCertificates = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [graduates, setGraduates] = useState(null);
   const [tab, setTab] = useState(false);
   const [sort, setSort] = useState("all");
@@ -129,6 +131,8 @@ export default function page() {
     document.getElementById("certificateDate").innerText = data.date
       ? FormatDate(data.date)
       : "Berilmagan";
+    document.getElementById("certificateLink").href = data?.file;
+    document.getElementById("deleteCertificate").dataset.id = data._id;
 
     const owner =
       graduates && graduates.find((graduate) => graduate._id === data.owner);
@@ -161,6 +165,31 @@ export default function page() {
     });
     return counts;
   }, [certificates]);
+
+  async function deleteCertificate(e) {
+    const id = e.target.getAttribute("data-id");
+    setIsLoading(true);
+    const response = await fetch("/api/certificate?id=" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      alert("Sertifikat muvaffaqiyatli o'chirildi");
+      window.location.reload();
+    } else {
+      alert(data.message);
+    }
+
+    setIsLoading(false);
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -483,7 +512,9 @@ export default function page() {
                     filteredCertificates.map((certificate, index) => (
                       <tr key={certificate?._id}>
                         <th>{index + 1}</th>
-                        <td>
+                        <td
+                          className="cursor-pointer"
+                          onClick={() => showCertificate(certificate)}>
                           {certificate.certificateNumber ??
                             certificate.file.slice(9)}
                         </td>
@@ -500,7 +531,9 @@ export default function page() {
                     certificates.map((certificate, index) => (
                       <tr key={certificate?._id}>
                         <th>{index + 1}</th>
-                        <td onClick={() => showCertificate(certificate)}>
+                        <td
+                          className="cursor-pointer"
+                          onClick={() => showCertificate(certificate)}>
                           {certificate.certificateNumber ??
                             certificate.file.slice(9)}
                         </td>
@@ -537,29 +570,51 @@ export default function page() {
 
       {/* Modal Certificate */}
       <dialog id="modalCertificate" className="modal">
-        <div className="modal-box w-fit flex ">
-          <div>
-            <p>
-              Raqam/Fayl: <span id="certificateNumber"></span>
-            </p>
-            <p>
-              Kurs nomi: <span id="certificateCourse"></span>
-            </p>
-            <p>
-              Sana: <span id="certificateDate"></span>
-            </p>
-            <p>
-              Bitiruvchi: <span id="certificateOwner"></span>
-            </p>
-          </div>
+        <div className="modal-box w-fit sm:text-2xl">
+          <div className="flex justify-between mb-5">
+            <div className="flex flex-col gap-5 ">
+              <p>
+                Raqam/Fayl:{" "}
+                <span className="text-white" id="certificateNumber"></span>
+              </p>
+              <p>
+                Kurs nomi:{" "}
+                <span className="text-white" id="certificateCourse"></span>
+              </p>
+              <p>
+                Sana: <span className="text-white" id="certificateDate"></span>
+              </p>
+            </div>
 
-          <img
-            id="certificateOwnerPhoto"
-            className="h-[135px] w-[105px] object-cover object-center border"
-            src=""
-            alt="graduate photo"
-          />
+            <img
+              id="certificateOwnerPhoto"
+              className="h-[135px] w-[105px] object-cover object-center border"
+              src=""
+              alt="graduate photo"
+            />
+          </div>
+          <p>
+            Bitiruvchi:{" "}
+            <span className="text-white" id="certificateOwner"></span>
+          </p>
+          <div className="flex justify-end gap-5 mt-5">
+            <a
+              id="certificateLink"
+              target="_blank"
+              download
+              href=""
+              className="btn btn-outline border-none text-white text-lg bg-blue-600">
+              Yuklash
+            </a>
+            <button
+              id="deleteCertificate"
+              className="btn btn-outline border-none text-white text-lg bg-red-600"
+              onClick={deleteCertificate}>
+              O'chirish
+            </button>
+          </div>
         </div>
+
         <form method="dialog" className="modal-backdrop">
           <button>Yopish</button>
         </form>
