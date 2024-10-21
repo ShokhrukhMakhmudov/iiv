@@ -9,7 +9,7 @@ const BackgroundVideo = () => {
 
   const handleVideoEnd = () => {
     const video = videoRef.current;
-    if (video && video.currentTime > 3.9) {
+    if (video && video.currentTime > 3.85) {
       video.pause();
     }
   };
