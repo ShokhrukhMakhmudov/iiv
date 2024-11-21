@@ -20,7 +20,7 @@ export default function AddCertificate() {
     certificateNumber: "",
     date: "",
   });
-  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -280,7 +280,15 @@ export default function AddCertificate() {
                 name="owner"
                 value={selectedCertificate}
                 onChange={handleCertificateChange}
-                options={certificatesOptions && certificatesOptions.filter((item) => filterCertificates === 'all' ? true : item.course.toLowerCase() === filterCertificates.toLowerCase())}
+                options={
+                  certificatesOptions &&
+                  certificatesOptions.filter((item) =>
+                    filterCertificates === "all"
+                      ? true
+                      : item.course.toLowerCase() ===
+                        filterCertificates.toLowerCase()
+                  )
+                }
                 placeholder="Sertifikatni tanlang"
                 isSearchable={true}
                 isClearable={true}
@@ -316,18 +324,18 @@ export default function AddCertificate() {
                 value={filterCertificates}
                 onChange={(e) => setFilterCertificates(e.target.value)}
                 required>
-                  <option value="all">Barchasi</option>
-                <option value="Boshlang'ich">Boshlang'ich</option>
-                <option value="Podpolkovnik">Podpolkovnik</option>
-                <option value="Mayor">Mayor</option>
-                <option value="Zaxira">Zaxira</option>
-                <option value="Katta serjant">Katta serjant</option>
+                <option value="all">Barchasi</option>
                 <option value="Masofa malaka oshirish">
                   Masofa malaka oshirish
                 </option>
                 <option value="Masofa qayta tayyorlash">
                   Masofa qayta tayyorlash
                 </option>
+                <option value="Boshlang'ich">Boshlang'ich</option>
+                <option value="Podpolkovnik">Podpolkovnik</option>
+                <option value="Mayor">Mayor</option>
+                <option value="Zaxira">Zaxira</option>
+                <option value="Katta serjant">Katta serjant</option>
               </select>
             </div>
           )}

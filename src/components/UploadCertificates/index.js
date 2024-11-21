@@ -4,8 +4,8 @@ import Loader from "../Loader";
 
 export default function UploadCertificates() {
   const [files, setFiles] = useState([]);
-  const [course, setCourse] = useState("Boshlang'ich");
-  
+  const [course, setCourse] = useState("Masofa malaka oshirish");
+
   const [loading, setLoading] = useState(false);
   // Обработчик изменения файлов
   const handleFileChange = (e) => {
@@ -51,58 +51,59 @@ export default function UploadCertificates() {
       console.error("Ошибка при загрузке файлов:", error);
       alert("Ошибка при загрузке файлов.");
     }
-      setLoading(false);
-
+    setLoading(false);
   };
 
   return (
     <>
-    <div className="container mt-10">
-      <h1 className="text-4xl font-bold mb-5 text-center">
-        Sertifikatlarni yuklash
-      </h1>
+      <div className="container mt-10">
+        <h1 className="text-4xl font-bold mb-5 text-center">
+          Sertifikatlarni yuklash
+        </h1>
 
-      <form className="card-body max-w-[700px] mx-auto" onSubmit={handleSubmit}>
-        <div className="form-control ">
-          <label className="label">
-            <span className="label-text text-lg">Выберите файлы</span>
-          </label>
-          <input
-            type="file"
-            multiple
-            className="input input-bordered text-xl mb-5"
-            onChange={handleFileChange}
-            required
-          />
-          <label className="label">
-            <span className="label-text text-lg">Kurs nomi:</span>
-          </label>
-          <select
-            className="select select-bordered text-xl text-white text-center"
-            name="course"
-            value={course}
-            onChange={handleSelect}
-            required>
-            <option value="Boshlang'ich">Boshlang'ich</option>
-            <option value="Podpolkovnik">Podpolkovnik</option>
-            <option value="Mayor">Mayor</option>
-            <option value="Zaxira">Zaxira</option>
-            <option value="Katta serjant">Katta serjant</option>
-            <option value="Masofa malaka oshirish">
-              Masofa malaka oshirish
-            </option>
-            <option value="Masofa qayta tayyorlash">
-              Masofa qayta tayyorlash
-            </option>
-          </select>
-        </div>
+        <form
+          className="card-body max-w-[700px] mx-auto"
+          onSubmit={handleSubmit}>
+          <div className="form-control ">
+            <label className="label">
+              <span className="label-text text-lg">Выберите файлы</span>
+            </label>
+            <input
+              type="file"
+              multiple
+              className="input input-bordered text-xl mb-5"
+              onChange={handleFileChange}
+              required
+            />
+            <label className="label">
+              <span className="label-text text-lg">Kurs nomi:</span>
+            </label>
+            <select
+              className="select select-bordered text-xl text-white text-center"
+              name="course"
+              value={course}
+              onChange={handleSelect}
+              required>
+              <option value="Masofa malaka oshirish">
+                Masofa malaka oshirish
+              </option>
+              <option value="Masofa qayta tayyorlash">
+                Masofa qayta tayyorlash
+              </option>
+              <option value="Boshlang'ich">Boshlang'ich</option>
+              <option value="Podpolkovnik">Podpolkovnik</option>
+              <option value="Mayor">Mayor</option>
+              <option value="Zaxira">Zaxira</option>
+              <option value="Katta serjant">Katta serjant</option>
+            </select>
+          </div>
 
-        <div className="form-control mt-6">
-          <button className="btn btn-primary">Загрузить файлы</button>
-        </div>
-      </form>
-    </div>
-    {loading && <Loader />}
+          <div className="form-control mt-6">
+            <button className="btn btn-primary">Загрузить файлы</button>
+          </div>
+        </form>
+      </div>
+      {loading && <Loader />}
     </>
   );
 }
