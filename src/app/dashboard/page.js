@@ -221,13 +221,13 @@ export default function page() {
         <div className="flex flex-col sm:flex-row justify-between gap-5 mb-10 text-black font-bold ">
           <button
             className="w-[49%] btn btn-outline text-xl"
-            style={tab ? {} : { background: "#fff", color: "#000" }}
+            style={tab ? {} : { background: "#ccc", color: "#000" }}
             onClick={() => setTab(false)}>
             Bitiruvchilar
           </button>
           <button
             className="w-[49%] btn btn-outline text-xl"
-            style={tab ? { background: "#fff", color: "#000" } : {}}
+            style={tab ? { background: "#ccc", color: "#000" } : {}}
             onClick={() => setTab(true)}>
             Sertifikatlar
           </button>
