@@ -34,7 +34,7 @@ export default function Header() {
             width={60}
             height={60}
           />
-          <p className="font-semibold text-black text-[12px] sm:text-lg">
+          <p className="font-semibold text-white text-[12px] sm:text-lg">
             ICHKI ISHLAR VAZIRLIGI <br /> MALAKA OSHIRISH INSTITUTI
           </p>
         </div>
