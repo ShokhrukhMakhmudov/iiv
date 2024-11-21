@@ -66,7 +66,7 @@ export default function UploadCertificates() {
           onSubmit={handleSubmit}>
           <div className="form-control ">
             <label className="label">
-              <span className="label-text text-lg">Выберите файлы</span>
+              <span className="label-text text-lg">Fayl tanlang:</span>
             </label>
             <input
               type="file"
@@ -79,7 +79,7 @@ export default function UploadCertificates() {
               <span className="label-text text-lg">Kurs nomi:</span>
             </label>
             <select
-              className="select select-bordered text-xl text-white text-center"
+              className="select select-bordered text-xl text-black text-center"
               name="course"
               value={course}
               onChange={handleSelect}
@@ -99,7 +99,7 @@ export default function UploadCertificates() {
           </div>
 
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Загрузить файлы</button>
+            <button className="btn btn-primary text-xl">Faylni yuklash</button>
           </div>
         </form>
       </div>

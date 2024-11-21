@@ -319,7 +319,7 @@ export default function AddCertificate() {
                 })}
               />
               <select
-                className="select select-bordered text-xl text-white text-center max-w-[200px]"
+                className="select select-bordered text-xl text-black text-center max-w-[200px]"
                 name="course"
                 value={filterCertificates}
                 onChange={(e) => setFilterCertificates(e.target.value)}

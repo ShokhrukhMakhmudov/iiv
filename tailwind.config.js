@@ -22,7 +22,23 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     themes: [
-      "dark",
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+          primary: "#4f46e5",
+          secondary: "#0d9488",
+          accent: "#f59e0b",
+          neutral: "#111827",
+          "base-100": "#ffffff",
+          info: "#3b82f6",
+          success: "#10b981",
+          warning: "#f59e0b",
+          error: "#ef4444",
+          "--rounded-btn": "1rem",
+          color: "#000000",
+          headerbg: "#fff",
+        },
+      },
       // {
       //   light: {
       //     primary: "#4f46e5", // Цвета для light темы

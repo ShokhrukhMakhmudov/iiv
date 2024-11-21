@@ -34,7 +34,7 @@ const RootLayout = ({ children }) => {
   }, [router]);
 
   if (isLoading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   return (
@@ -43,7 +43,7 @@ const RootLayout = ({ children }) => {
         <div className="container py-4 flex flex-col gap-3 md:gap-0 md:flex-row items-center justify-between">
           <Link href="/dashboard" className="logo flex items-center gap-3">
             <img src="/iiv.png" alt="logo" width={60} height={60} />
-            <p className="font-semibold text-white">
+            <p className="font-semibold text-black">
               ICHKI ISHLAR VAZIRLIGI <br /> MALAKA OSHIRISH INSTITUTI
             </p>
           </Link>

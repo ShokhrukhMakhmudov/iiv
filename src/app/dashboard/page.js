@@ -194,7 +194,7 @@ export default function page() {
   return (
     <>
       <div className="container mt-10">
-        <div className="stats stats-mobile w-full shadow shadow-white mb-10 mx-auto">
+        <div className="stats stats-mobile w-full shadow shadow-black mb-10 mx-auto">
           <div className="stat place-items-center">
             <div className="stat-title font-bold">Bitiruvchilar</div>
             <div className="stat-value">{graduates?.length ?? 0}</div>
@@ -207,7 +207,7 @@ export default function page() {
             </div>
           </div>
         </div>
-        <div className="stats stats-mobile w-full flex flex-col sm:flex-row shadow shadow-white mb-10 text-white">
+        <div className="stats stats-mobile w-full flex flex-col sm:flex-row shadow shadow-black mb-10 text-black">
           {certificateCounts &&
             Object.keys(certificateCounts)
               .reverse()
@@ -218,7 +218,7 @@ export default function page() {
                 </div>
               ))}
         </div>
-        <div className="flex flex-col sm:flex-row justify-between gap-5 mb-10 text-white font-bold ">
+        <div className="flex flex-col sm:flex-row justify-between gap-5 mb-10 text-black font-bold ">
           <button
             className="w-[49%] btn btn-outline text-xl"
             style={tab ? {} : { background: "#fff", color: "#000" }}
