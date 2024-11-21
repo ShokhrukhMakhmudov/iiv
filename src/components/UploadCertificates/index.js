@@ -84,11 +84,11 @@ export default function UploadCertificates() {
               value={course}
               onChange={handleSelect}
               required>
-              <option value="Masofa malaka oshirish">
-                Masofa malaka oshirish
+              <option value="Masofadan malaka oshirish">
+                Masofadan malaka oshirish
               </option>
-              <option value="Masofa qayta tayyorlash">
-                Masofa qayta tayyorlash
+              <option value="Masofadan qayta tayyorlash">
+                Masofadan qayta tayyorlash
               </option>
               <option value="Boshlang'ich">Boshlang'ich</option>
               <option value="Podpolkovnik">Podpolkovnik</option>
