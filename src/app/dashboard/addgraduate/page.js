@@ -170,18 +170,6 @@ export default function AddGraduate() {
             onChange={handleChange}
             required
           />
-
-          {/* <label className="label">
-            <span className="label-text text-lg">Sana</span>
-          </label>
-          <input
-            type="date"
-            name="graduationDate"
-            className="input input-bordered text-xl"
-            value={formData.graduationDate}
-            onChange={handleChange}
-            required
-          /> */}
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="form-control mt-6">

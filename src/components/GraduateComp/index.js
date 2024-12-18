@@ -24,7 +24,7 @@ export default function index() {
   }, []);
 
   return (
-    <section className="py-10 text-black" id="graduate">
+    <section className="py-10 text-white" id="graduate">
       <div className="container">
         {graduate ? (
           <div className="flex flex-col justify-center gap-10 border">

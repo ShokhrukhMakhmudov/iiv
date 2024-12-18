@@ -79,7 +79,7 @@ export default function UploadCertificates() {
               <span className="label-text text-lg">Kurs nomi:</span>
             </label>
             <select
-              className="select select-bordered text-xl text-black text-center"
+              className="select select-bordered text-xl text-white text-center"
               name="course"
               value={course}
               onChange={handleSelect}
