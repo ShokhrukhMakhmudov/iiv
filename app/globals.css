@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    height: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    height: 100%;
+  }
+}
+@layer components {
+  .container {
+    margin-inline: auto;
+  }
+  .adminPage {
+    height: 100%;
+    /* background: url("/image.jpg")  no-repeat; */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .loginPage {
+    height: 100%;
+    color: #c2c2c2;
+    background: url("/bg.png") #5c5c5c no-repeat;
+    background-position: center;
+  }
+}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
